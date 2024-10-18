@@ -108,98 +108,98 @@ public:
 
         Node *temp = head; //make pointer to iterate through DLL
 
-        for (int i = 1; i < pos; i++) //run the following until 
+        for (int i = 1; i < pos; i++) //run the following until i == int position:
         {
-            if (!temp)
+            if (!temp) //if temp == nullptr
             {
-                cout << "Position doesn't exist." << endl;
-                return;
+                cout << "Position doesn't exist." << endl; //out of range, output error
+                return; //terminate
             }
-            else
-                temp = temp->next;
+            else //if not out of range
+                temp = temp->next; //go to location of next node 
         }
-        if (!temp)
+        if (!temp) //if final position after iteration invalid
         {
-            cout << "Position doesn't exist." << endl;
-            return;
+            cout << "Position doesn't exist." << endl;//out of range, output error
+            return;//terminate
         }
 
-        if (!temp->next)
+        if (!temp->next) //if last node in DLL
         {
-            pop_back();
-            return;
+            pop_back(); //can use pop_back() function to delete last Node
+            return; //terminate
         }
 
-        Node *tempPrev = temp->prev;
-        tempPrev->next = temp->next;
-        temp->next->prev = tempPrev;
-        delete temp;
+        Node *tempPrev = temp->prev; //make pointer to current Node's previous node
+        tempPrev->next = temp->next; //make the previous node's next value point to the node after current (remove pointer to current)
+        temp->next->prev = tempPrev; //make the Node after current point to the Node before current
+        delete temp; //now that pointers don't reference the node (node isolated), delete it
     }
 
-    void push_back(int v)
+    void push_back(int v) //function to add node to tail of DLL (last element)
     {
-        Node *newNode = new Node(v);
-        if (!tail)
-            head = tail = newNode;
-        else
+        Node *newNode = new Node(v); //make new node dynamically, initialize with parameter v indicating data
+        if (!tail) //if there's no tail (empty DLL)
+            head = tail = newNode; //make both pointers point to the newNode
+        else //if there are Nodes
         {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
-    }
-
-    void push_front(int v)
-    {
-        Node *newNode = new Node(v);
-        if (!head)
-            head = tail = newNode;
-        else
-        {
-            newNode->next = head;
-            head->prev = newNode;
-            head = newNode;
+            tail->next = newNode; //make the tail Node's next value point to the new Node
+            newNode->prev = tail; //make the newnode's previous point to the current tail
+            tail = newNode; // update tail of DLL to point to newNode
         }
     }
 
-    void pop_front()
+    void push_front(int v) //function to add node to head of DLL
     {
-
-        if (!head)
+        Node *newNode = new Node(v);//make new node dynamically, initialize with parameter v indicating data
+        if (!head)//if there's no head (empty DLL)
+            head = tail = newNode; //make both pointers point to the newNode
+        else //if there are Nodes
         {
-            cout << "List is empty." << endl;
-            return;
+            newNode->next = head; //make the next pointer of the newNode point to the head of the array
+            head->prev = newNode; //make the current head's previous pointer point to the newNode
+            head = newNode;// update head of DLL to point to newNode
         }
-
-        Node *temp = head;
-
-        if (head->next)
-        {
-            head = head->next;
-            head->prev = nullptr;
-        }
-        else
-            head = tail = nullptr;
-        delete temp;
     }
 
-    void pop_back()
+    void pop_front() //function to get delete first element of DLL
     {
-        if (!tail)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-        Node *temp = tail;
 
-        if (tail->prev)
+        if (!head) // if head == nullptr
         {
-            tail = tail->prev;
-            tail->next = nullptr;
+            cout << "List is empty." << endl; //error message
+            return; //end function
         }
-        else
-            head = tail = nullptr;
-        delete temp;
+
+        Node *temp = head; // make pointer temp point to the head (to be popped)
+
+        if (head->next) //if head->next != nullptr
+        {
+            head = head->next; //move head pointer of DLL to next Node (second node)
+            head->prev = nullptr; //make the head's previous pointer nullptr 
+        }
+        else // or if the DLL is empty
+            head = tail = nullptr; //make both head and tail point to null (empty)
+        delete temp; //delete firnode
+    }
+
+    void pop_back()//function to get delete last element of DLL
+    {
+        if (!tail) //if no tail
+        {
+            cout << "List is empty." << endl; //error message
+            return; //end function
+        }
+        Node *temp = tail; // point temp to the location of tail
+
+        if (tail->prev) //if tail has a previous Node
+        {
+            tail = tail->prev; //make the tail point to that previous node
+            tail->next = nullptr; //make the tail's next pointer point to null 
+        }
+        else //or if empty DLL
+            head = tail = nullptr;  //make both head and tail point to null (empty)
+        delete temp; //delete last node
     }
 
     ~DoublyLinkedList()
