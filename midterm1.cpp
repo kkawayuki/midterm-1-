@@ -57,58 +57,58 @@ public:
         }
 
         //assuming that no errors in input/reaching target location 
-        newNode->next = temp->next; //have new
-        newNode->prev = temp;
-        if (temp->next)
-            temp->next->prev = newNode;
-        else
-            tail = newNode;
-        temp->next = newNode;
+        newNode->next = temp->next; //have newNode's next pointer point to the next variable of temp (temp is location of insertion)
+        newNode->prev = temp; //have newNode's previous pointer point to the current location (temp), because we're inserting newNode after location of current
+        if (temp->next) //if it wasn't the last Node in DLL
+            temp->next->prev = newNode; //make the node past the current node's previous value point to newNode (instead of current)
+        else //if it is the last Node in DLL
+            tail = newNode; //make the tail ptr of the DLL point to the location of the newNode
+        temp->next = newNode; //have current node's next value be the location of the newNode
     }
 
-    void delete_val(int value)
+    void delete_val(int value) //function to delete Nodes based on their int data in comparison to a passed int "value" parameter
     {
-        if (!head)
-            return;
+        if (!head) //if DLL empty
+            return; //terminate
 
-        Node *temp = head;
+        Node *temp = head; // make pointer to iterate through DLL
 
-        while (temp && temp->data != value)
-            temp = temp->next;
+        while (temp && temp->data != value) //while address temp != nullptr and its data isn't equivalent to parameter "value"
+            temp = temp->next; //go to location of next Node
 
-        if (!temp)
-            return;
+        if (!temp) //if temp == nullptr
+            return; //terminate 
 
-        if (temp->prev)
-            temp->prev->next = temp->next;
-        else
-            head = temp->next;
+        if (temp->prev) //assumes now have reached desired node with data == value, so if it's not the head: 
+            temp->prev->next = temp->next; //the current Node's previous value is becoming the next
+        else //if it is the head
+            head = temp->next; //make DLL's head point to the location of the current Node's next (because this one is getting deleted)
 
-        if (temp->next)
-            temp->next->prev = temp->prev;
-        else
-            tail = temp->prev;
+        if (temp->next) //if current not the tail
+            temp->next->prev = temp->prev; //then make the Node after current's previous value point to the location of the current's previous (remove current from chain)
+        else //if it is the tail
+            tail = temp->prev; //then make the DLL's tail field point to the value before the tail
 
-        delete temp;
+        delete temp; //delete node based off of pointer to current node
     }
 
-    void delete_pos(int pos)
+    void delete_pos(int pos) //deletion based on the position int "pos" of a Node in the DLL (not value like previous)
     {
-        if (!head)
+        if (!head) //if no head
         {
-            cout << "List is empty." << endl;
-            return;
+            cout << "List is empty." << endl; //output explanation message
+            return; //terminate 
         }
 
-        if (pos == 1)
+        if (pos == 1) //if first node wanted to be removed
         {
-            pop_front();
-            return;
+            pop_front(); //use pop_front() function to "pop" the first Node out of the DLL, (delete it)
+            return; //terminate 
         }
 
-        Node *temp = head;
+        Node *temp = head; //make pointer to iterate through DLL
 
-        for (int i = 1; i < pos; i++)
+        for (int i = 1; i < pos; i++) //run the following until 
         {
             if (!temp)
             {
