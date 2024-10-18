@@ -251,14 +251,21 @@ public:
 
 int main()
 {
-    srand(time(0))
-    cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS; // dummy statement to avoid compiler warning
+    srand(time(0));
 
-    //demo
+    const int LISTSIZE = (rand()%(MAX_LS-MIN_LS+1))+5; //random 0-15 number due to %15+1, then, + 5 to make into 5-20, random list size
 
     DoublyLinkedList list;
 
-    for(int i = 0; i < )
+    //assignment loop
+    for(int i = 0; i < LISTSIZE; i++)
+    {
+        list.push_front((rand()%10)+1); //populate linked list with nodes of values ranging from 1-10 to distinguish
+    }
+
+    list.print(); //show resultant values of Linked List 
+
+    list.every_other_element(); //show what happens when only every other value is printed
 
     return 0;
 }
