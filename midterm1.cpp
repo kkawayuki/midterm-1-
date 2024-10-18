@@ -1,16 +1,16 @@
-#include <iostream> //allows for user input/output in terminal
-#include <time.h> //I added for better random variables, (seeding using time 0)
-using namespace std; //allows usage of shortened syntax for standard (std::) relevant 
+#include <iostream>  //allows for user input/output in terminal
+#include <time.h>    //I added for better random variables, (seeding using time 0)
+using namespace std; // allows usage of shortened syntax for standard (std::) relevant
 
-const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20; //intialization of constant constraint variables at global scope
+const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20; // intialization of constant constraint variables at global scope
 
-class DoublyLinkedList //declare user-defined class "DoublyLinkedList"
+class DoublyLinkedList // declare user-defined class "DoublyLinkedList"
 {
-private: //list private variables/methods
-    struct Node //define node struct in private scope of DoublyLinkedList class, DLL "has" Nodes (encapsulation)
+private:        // list private variables/methods
+    struct Node // define node struct in private scope of DoublyLinkedList class, DLL "has" Nodes (encapsulation)
     {
-        int data; 
-        Node *prev;
+        int data; // the "data" stored in each node of DLL, an integer value
+        Node *prev; // po
         Node *next;
         Node(int val, Node *p = nullptr, Node *n = nullptr)
         {
@@ -243,29 +243,43 @@ public:
         cout << endl;
     }
 
-    void every_other_element() //my code, public method to print every other data struct (node)
+    void every_other_element() // my code, a public method to print every other data struct (node)
     {
-
+        Node *current = head; // set a navigation pointer to start at head of DLL
+        if (!current) //if the list is empty
+        {
+            cout << "List is empty." << endl; //output error message
+            return; //return, end function early. Because function is void, doesn't have to return value
+        }
+        for (int i = 0; current; i++) // essentially a while loop with an iterator built in, (while current != nullptr)
+        {
+            if (i % 2 == 0) // if the index tracking the number of nodes visited is even (prints first, 0th element, skips second (1st), prints third (2nd), etc.)
+            {
+                cout << current->data << " "; // output the data of the node, formatted
+            }
+            current = current->next; // move navigation pointer to address of next node
+        }
+        cout << '\n'; // format with a new line (endl also works)
     }
 };
 
 int main()
 {
-    srand(time(0));
+    srand(time(0)); //seed random with time 0, the current time, allows good random number generation for later code
 
-    const int LISTSIZE = (rand()%(MAX_LS-MIN_LS+1))+5; //random 0-15 number due to %15+1, then, + 5 to make into 5-20, random list size
+    const int LISTSIZE = (rand() % (MAX_LS - MIN_LS + 1)) + 5; // random 0-15 number due to %15+1, then, + 5 to make into 5-20, random list size
+    DoublyLinkedList list; //declare linked list object to fill later
 
-    DoublyLinkedList list;
-
-    //assignment loop
-    for(int i = 0; i < LISTSIZE; i++)
+    for (int i = 0; i < LISTSIZE; i++) // assignment loop that iterates LISTSIZE number of times, listsize being the random 5-20 number generated based on global variables
     {
-        list.push_front((rand()%10)+1); //populate linked list with nodes of values ranging from 1-10 to distinguish
+        list.push_front((rand() % 10) + 1); // populate linked list with nodes of values ranging from 1-10 to distinguish
     }
 
-    list.print(); //show resultant values of Linked List 
+    cout<< "Printing all: "; // message to explain what the following function call's output means
+    list.print(); // show resultant values of Linked List
 
-    list.every_other_element(); //show what happens when only every other value is printed
+    cout<< "Printing every other: "; // message to explain what the following function call's output means
+    list.every_other_element(); // show what happens when only every other value is printed
 
-    return 0;
+    return 0; //signal to main() that application run was successful
 }
