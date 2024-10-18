@@ -10,53 +10,54 @@ private:        // list private variables/methods
     struct Node // define node struct in private scope of DoublyLinkedList class, DLL "has" Nodes (encapsulation)
     {
         int data; // the "data" stored in each node of DLL, an integer value
-        Node *prev; // po
-        Node *next;
-        Node(int val, Node *p = nullptr, Node *n = nullptr)
+        Node *prev; // pointer to previous node in linked list
+        Node *next; //pointer to next node in linked list
+        Node(int val, Node *p = nullptr, Node *n = nullptr) //constructor for node, parameter-based, takes in an integer value, assigns *p and *n to nullptr
         {
-            data = val;
-            prev = p;
-            next = n;
+            data = val; //assign data field in Node to parameter val
+            prev = p; // assign pointer to previous node to p (nullptr)
+            next = n; // assign pointer to next node to n (nullptr)
         }
     };
 
-    Node *head;
-    Node *tail;
+    Node *head; //the pointer to the head of the DLL
+    Node *tail; //pointer to the tail of the DLL 
 
 public:
-    DoublyLinkedList()
+    DoublyLinkedList() //parameterless constructor for DLL
     {
-        head = nullptr;
-        tail = nullptr;
+        head = nullptr; //assigns head field to nullptr
+        tail = nullptr; //and tail. This is because at declaration-time of DLL class, it'll be empty, hence, head/tail ptrs will have nothing to point to.
     }
 
-    void insert_after(int value, int position)
+    void insert_after(int value, int position) //function to insert a node with int "value" after a specific int "poition" in the DLL
     {
-        if (position < 0)
+        if (position < 0) //position parameter cannot be negative, can be zero because DLL starts at position 0, (head is 0)
         {
-            cout << "Position must be >= 0." << endl;
-            return;
+            cout << "Position must be >= 0." << endl; //output error message
+            return; //terminate void function early with empty return
         }
 
-        Node *newNode = new Node(value);
-        if (!head)
+        Node *newNode = new Node(value); // dynamically create a new node to populate, create pointer to node  
+        if (!head) // if there's no head in DLL
         {
-            head = tail = newNode;
-            return;
+            head = tail = newNode; // set head and tail pointer to address of newNode
+            return; //end function
         }
 
-        Node *temp = head;
-        for (int i = 0; i < position && temp; ++i)
-            temp = temp->next;
+        Node *temp = head; //initialize a pointer to the head of the DLL
+        for (int i = 0; i < position && temp; ++i) //run the following until arriving at the integer specified by position (so long as it's valid, &&temp signifies that temp!=nullptr)
+            temp = temp->next; //go to location of next Node
 
-        if (!temp)
+        if (!temp) //if temp goes out of range of DLL, temp == nullptr
         {
-            cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode;
-            return;
+            cout << "Position exceeds list size. Node not inserted.\n"; //output error message
+            delete newNode; //delete the dynamically allocated node made earlier (as unable to insert into DLL)
+            return; //end function
         }
 
-        newNode->next = temp->next;
+        //assuming that no errors in input/reaching target location 
+        newNode->next = temp->next; //have new
         newNode->prev = temp;
         if (temp->next)
             temp->next->prev = newNode;
